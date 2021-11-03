@@ -12,7 +12,6 @@ class Post(TimeStampModel):
     title           = models.CharField(max_length=30)
     sub_title       = models.CharField(max_length=30)
     content         = models.TextField()
-    delete_time     = models.DateTimeField()
     is_delete       = models.BooleanField(default=False)
     
     class Meta:
