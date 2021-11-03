@@ -13,6 +13,9 @@ class SignUpView(View):
             data     = json.loads(request.body)
             email    = data['email']
             password = data['password']
+            author_name = data['author_name']
+            author_job = data['author_job']
+            author_intro = data['author_intro']
 
             if not re.match('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
                 return JsonResponse({"message" : "INVALD_EMAIL"}, status=400)
