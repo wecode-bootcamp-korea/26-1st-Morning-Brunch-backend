@@ -12,7 +12,6 @@ class User(models.Model):
     
     class Meta:
         db_table    = 'users'
-        app_label   = 'users'
 
 class UserImage(models.Model):
     user        = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -20,7 +19,6 @@ class UserImage(models.Model):
     
     class Meta:
         db_table    = 'user_images'
-        app_label   = 'users'
 
 class UserTag(models.Model):
     user    = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -28,7 +26,6 @@ class UserTag(models.Model):
     
     class Meta:
         db_table    = 'users_tags'
-        app_label   = 'users'
 
 class Tag(models.Model):
     tag_name    = models.CharField(max_length=15)
@@ -37,7 +34,6 @@ class Tag(models.Model):
     
     class Meta:
         db_table    = 'tags'
-        app_label   = 'users'
 
 class Like(models.Model):
     user    = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -45,4 +41,3 @@ class Like(models.Model):
     
     class Meta:
         db_table    = 'likes'
-        app_label   = 'users'

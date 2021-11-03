@@ -4,7 +4,6 @@ class Magazine(models.Model):
     name            = models.CharField(max_length=30)
     class Meta:
         db_table    = 'megazines'
-        app_label   = 'posts'
 
 class Post(models.Model):
     magazine        = models.ForeignKey('Magazine',on_delete=models.CASCADE)
@@ -17,7 +16,6 @@ class Post(models.Model):
     
     class Meta:
         db_table    = 'posts'
-        app_label   = 'posts'
 
 class CoverImage(models.Model):
     post            = models.ForeignKey('Post',on_delete=models.CASCADE)
@@ -26,7 +24,6 @@ class CoverImage(models.Model):
     
     class Meta:
         db_table    = 'cover_images'
-        app_label   = 'posts'
 
 class PostTag(models.Model):
     post            = models.ForeignKey('post',on_delete=models.CASCADE)
@@ -34,4 +31,3 @@ class PostTag(models.Model):
 
     class Meta:
         db_table    = 'posts_tags'
-        app_label   = 'posts'
