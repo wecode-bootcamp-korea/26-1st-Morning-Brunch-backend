@@ -12,9 +12,6 @@ class SignInView(View):
             data = json.loads(request.body)
             user = User.objects.get(email=data['email'])
         
-            if not user.exists():
-                return JsonResponse({'message':'USER_DOES_NOT_EXIST'}, status=404)
-
             if not bcrypt.checkpw(data["password"].encode("utf-8"), user.password.encode('utf-8')):
                 return JsonResponse({"MESSAGE":"INVALID_USER"}, status=401)
 
@@ -24,3 +21,6 @@ class SignInView(View):
 
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
+
+        except User.DoesNotExist:
+            return JsonResponse({'message':"USER_DOES_NOT_EXIST"}, status=404)
