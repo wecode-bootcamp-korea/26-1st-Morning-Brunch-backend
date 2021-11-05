@@ -1,6 +1,7 @@
 from django.db      import models
 
 from core.models    import TimeStampModel    
+from users.models   import User
 
 class Magazine(models.Model):
     name = models.CharField(max_length=30)
@@ -8,7 +9,7 @@ class Magazine(models.Model):
         db_table = 'magazines'
 
 class Post(TimeStampModel):
-    magazine        = models.ForeignKey('Magazine',on_delete=models.CASCADE)
+    user_id         = users.models.ForeignKey(‘User’,on_delete=models.CASACADE)
     title           = models.CharField(max_length=30)
     sub_title       = models.CharField(max_length=30)
     content         = models.TextField()
