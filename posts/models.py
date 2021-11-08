@@ -7,7 +7,7 @@ class Post(TimeStampModel):
     sub_title   = models.CharField(max_length=30)
     content     = models.TextField()
     is_delete   = models.BooleanField(default=False)
-    post_user   = models.ForeignKey('users.User', on_delete=models.PROTECT)
+    user        = models.ForeignKey('users.User', on_delete=models.PROTECT, related_name="post_users")
     
     class Meta:
         db_table = 'posts'

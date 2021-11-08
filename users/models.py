@@ -8,7 +8,7 @@ class User(TimeStampModel):
     author_name     = models.CharField(max_length=30, unique=True)
     author_job      = models.CharField(max_length=30, blank=True)
     author_intro    = models.TextField(blank=True)
-    like_post       = models.ManyToManyField('posts.Post', blank=True, through='users.Like')
+    like_post       = models.ManyToManyField('posts.Post', blank=True, through='users.Like', related_name="liked_posts")
     
     class Meta:
         db_table = 'users'
