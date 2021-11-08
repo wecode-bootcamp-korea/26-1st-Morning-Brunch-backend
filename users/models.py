@@ -8,7 +8,7 @@ class User(TimeStampModel):
     author_name     = models.CharField(max_length=30, unique=True)
     author_job      = models.CharField(max_length=30, blank=True)
     author_intro    = models.TextField(blank=True)
-    like_post       = models.ManyToManyField('posts.Post', through='users.Like')
+    like_post       = models.ManyToManyField('posts.Post', blank=True, through='users.Like')
     
     class Meta:
         db_table = 'users'
@@ -21,8 +21,8 @@ class UserImage(models.Model):
         db_table = 'user_images'
 
 class UserTag(models.Model):
-    user    = models.ForeignKey('User', on_delete=models.CASCADE)
-    tag     = models.ForeignKey('Tag', on_delete=models.CASCADE)
+    user    = models.ForeignKey('User', on_delete=models.PROTECT)
+    tag     = models.ForeignKey('Tag', on_delete=models.PROTECT)
     
     class Meta:
         db_table = 'users_tags'
