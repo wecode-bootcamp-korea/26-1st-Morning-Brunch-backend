@@ -7,7 +7,7 @@ class Post(TimeStampModel):
     sub_title   = models.CharField(max_length=30)
     content     = models.TextField()
     is_delete   = models.BooleanField(default=False)
-    user        = models.ForeignKey('users.User', on_delete=models.PROTECT, related_name="post_users")
+    user        = models.ForeignKey('users.User', on_delete=models.PROTECT, related_name="posts")
     
     class Meta:
         db_table = 'posts'
@@ -22,7 +22,7 @@ class CoverImage(models.Model):
 
 class PostTag(models.Model):
     post = models.ForeignKey('post',on_delete=models.PROTECT)
-    tag = models.ForeignKey('users.Tag',on_delete=models.PROTECT)
+    tag  = models.ForeignKey('users.Tag',on_delete=models.PROTECT)
 
     class Meta:
         db_table = 'posts_tags'
