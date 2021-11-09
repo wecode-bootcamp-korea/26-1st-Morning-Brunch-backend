@@ -2,13 +2,16 @@ from django.db      import models
 
 from core.models    import TimeStampModel
 
+#post.users_form_liked - 좋아요 한 유저.all() 
+#user.liked_posts.all()
+
 class User(TimeStampModel):
     email           = models.EmailField(max_length=254)
     password        = models.CharField(max_length=300)
     author_name     = models.CharField(max_length=30, unique=True)
     author_job      = models.CharField(max_length=30, blank=True)
     author_intro    = models.TextField(blank=True)
-    like_post       = models.ManyToManyField('posts.Post', blank=True, through='users.Like', related_name="liked_posts")
+    liked_posts     = models.ManyToManyField('posts.Post', blank=True, through='users.Like', related_name="like_users")
     
     class Meta:
         db_table = 'users'
@@ -30,7 +33,7 @@ class UserTag(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=15)
     user = models.ManyToManyField(User, through=UserTag)
-    post = models.ManyToManyField('posts.Post', through='posts.PostTag')
+    posts = models.ManyToManyField('posts.Post', through='posts.PostTag', related_name="tags")
     
     class Meta:
         db_table = 'tags'
