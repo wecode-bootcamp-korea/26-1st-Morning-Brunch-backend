@@ -3,7 +3,7 @@ from django.views   import View
 
 from posts.models   import Post
 
-class LikeContent(View):
+class LikeContentView(View):
     def get(self, request):
         try:
             posts = Post.objects.all()
