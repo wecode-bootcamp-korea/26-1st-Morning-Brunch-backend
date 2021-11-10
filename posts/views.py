@@ -8,8 +8,8 @@ class PostView(View):
         try:
             post = Post.objects.select_related('user').get(id = post_id)
             
-            result = {          
-                "cover_image" : post.coverimage_set.all().values('url'),
+            result = [{          
+                "cover_image" : post.coverimage_set.all().values('url').first(),
                 "title"       : post.title,
                 "sub_title"   : post.sub_title,
                 "creat_time"  : post.create_time,
@@ -19,9 +19,10 @@ class PostView(View):
                     "name"          : post.user.author_name,
                     "introduction"  : post.user.author_intro,
                     "user_tag"      : [tag.name for tag in post.user.tags.all()],
-                    "profile_image" : post.user.userimage_set.all().values('url')
+                    "profile_image" : post.user.userimage_set.all().values('url').first(),
                     }
-                }
+                }]
+            
 
             return JsonResponse({"post" : result}, status = 200)
 
