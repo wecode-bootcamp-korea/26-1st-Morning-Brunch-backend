@@ -1,8 +1,9 @@
 from django.urls    import path
 
-from posts.views    import LikeContentView, PostKeyWordView
+from posts.views    import PostsView, TagsView
 
 urlpatterns = [
-    path('/liked', LikeContentView.as_view()),
-    path('/keyword', PostKeyWordView.as_view())
+    path('', PostsView.as_view()),
+    path('/tags', TagsView.as_view())
 ]
+
