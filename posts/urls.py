@@ -1,7 +1,7 @@
 from django.urls    import path
 
-from posts.views    import PostKeyWordView
+from posts.views    import TagsView
 
 urlpatterns = [
-    path('/keyword', PostKeyWordView.as_view()),
+    path('/keyword', TagsView.as_view()),
 ] 
