@@ -1,7 +1,7 @@
 from django.urls    import path
 
-from posts.views    import LikeContentView
+from posts.views    import LikedContentView
 
 urlpatterns = [
-    path('/LikeContent', LikeContentView.as_view()),
+    path('/LikeContent', LikedContentView.as_view()),
 ]

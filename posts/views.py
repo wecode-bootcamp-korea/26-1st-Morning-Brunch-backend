@@ -8,11 +8,13 @@ class LikeContentView(View):
         try:
             posts = Post.objects.all()
             result = [
-                {'title' : post.title,
+                {
+                'post_id' : post.id,
+                'title' : post.title,
                 'author_name' : post.user.author_name,
                 'cover_image' : post.coverimage_set.values('url')[0].get('url')}
                 for post in posts]
-            return JsonResponse({'data':result}, status = 200)
+            return JsonResponse({'liked_contents_data':result}, status = 200)
 
         except KeyError:
             return JsonResponse({"message" : "KEY_ERROR"}, status=400)
