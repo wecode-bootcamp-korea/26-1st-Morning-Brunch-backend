@@ -60,15 +60,17 @@ class TagsView(View):
 class AuthorView(View):
     def get(self, request):
         offset          = int(request.GET.get('offset',0))
-        limit           = int(request.GET.get('limit',7))
-        tag_id          = request.GET.get('tag')
-        recommand_tag   = Tag.objects.get(id=tag_id)
+        limit           = int(request.GET.get('limit',6))
+        tag             = request.GET.get('tag')
+        recommand_tag   = Tag.objects.get(name=tag)
         users           = recommand_tag.users.all()[offset:limit]
-        result = [{
+        results = [{
             'user_id'       : user.id,
             'author_name'   : user.author_name,
             'author_job'    : user.author_job,
             'author_intro'  : user.author_intro,
-            'user_image'    : user.userimage_set.first().url
+            'user_image'    : user.userimage_set.first().url,
+            'post_id'       : list(user.posts.values_list('id', flat='True')),
+            'post_tag'      : [post.tags.first().name for post in list(user.posts.all())]
         }for user in users]
-        return JsonResponse({'data' : result}, status =200)
+        return JsonResponse({'data' : results}, status = 200)
