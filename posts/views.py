@@ -9,8 +9,7 @@ from posts.models import Post
 class PostView(View):
     def get(self, request, post_id):
         try:
-            post = Post.objects.select_related('user').get(id = post_id)
-            
+            post = Post.objects.select_related('user').get(id = post_id)    
             result = [{          
                 "cover_image" : post.coverimage_set.all().values('url').first(),
                 "title"       : post.title,
@@ -63,8 +62,6 @@ class UserView(View):
             offset  = int(request.GET.get('offset',0))
             limit   = int(request.GET.get('limit',4))
             user    = User.objects.all().get(id = user_id)
-            
-
             result = [{
                 "profile_image" : user.userimage_set.all().values('url').first(),
                 "name"          : user.author_name,
@@ -76,9 +73,26 @@ class UserView(View):
                     "content"     : post.content,
                     "cover_image" : post.coverimage_set.all().values('url').first()
                     } for post in user.posts.all()][offset:limit]
-
                 }]
              
+            return JsonResponse({"user" : result}, status = 200)
+
+        except KeyError:
+            return JsonResponse({"MESSAGE" : "KEY_ERROR"}, status=400)
+        
+        except User.DoesNotExist:
+            return JsonResponse({"MESSAGE" : "USER_DOES_NOT_EXIST"}, status=404)
+
+class UsersView(View):
+    def get(self,request, user_id):
+        try:
+            user = User.objects.all().get(id = user_id)
+            result = [{
+                "profile_image" : user.userimage_set.all().values('url').first(),
+                "name"          : user.author_name,
+                "introduction"   : user.author_intro,
+            }]
+
             return JsonResponse({"user" : result}, status = 200)
 
         except KeyError:
