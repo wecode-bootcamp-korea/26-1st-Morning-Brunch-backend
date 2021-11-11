@@ -1,6 +1,7 @@
 from django.http  import JsonResponse
 from django.views import View
 
+from users.models import Tag
 from posts.models import Post
 
 class PostView(View):
@@ -31,3 +32,19 @@ class PostView(View):
         
         except Post.DoesNotExist:
             return JsonResponse({'MESSAGE':'POST_DOES_NOT_EXIST'}, status=404)
+
+class AuthorView(View):
+    def get(self, request):
+        offset          = int(request.GET.get('offset',0))
+        limit           = int(request.GET.get('limit',7))
+        tag_id          = request.GET.get('tag')
+        recommand_tag   = Tag.objects.get(id=tag_id)
+        users           = recommand_tag.users.all()[offset:limit]
+        result = [{
+            'user_id'       : user.id,
+            'author_name'   : user.author_name,
+            'author_job'    : user.author_job,
+            'author_intro'  : user.author_intro,
+            'user_image'    : user.userimage_set.first().url
+        }for user in users]
+        return JsonResponse({'data' : result}, status =200)
