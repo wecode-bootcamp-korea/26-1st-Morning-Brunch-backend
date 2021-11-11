@@ -1,3 +1,5 @@
+import random
+
 from django.http  import JsonResponse
 from django.views import View
 
@@ -23,7 +25,6 @@ class PostView(View):
                     "profile_image" : post.user.userimage_set.all().values('url').first(),
                     }
                 }]
-            
 
             return JsonResponse({"post" : result}, status = 200)
 
@@ -32,6 +33,29 @@ class PostView(View):
         
         except Post.DoesNotExist:
             return JsonResponse({'MESSAGE':'POST_DOES_NOT_EXIST'}, status=404)
+
+class PostList(View):
+    def get(self, request):
+        offset  = int(request.GET.get('offset',0))
+        limit   = int(request.GET.get('limit',15))
+        posts   = Post.objects.all()[offset:limit]
+        result  = [{
+            'post_id'       : post.id,
+            'title'         : post.title,
+            'author_name'   : post.user.author_name,
+            'cover_image'   : post.coverimage_set.first().url
+            } for post in posts]
+        return JsonResponse({'liked_contents_data':result}, status = 200)
+
+class TagsView(View):
+    def get(self,request):
+        tags    = Tag.objects.filter(usertag__isnull=True).distinct()
+        results = [{
+            "tag"      : tag.name,
+            "post_ids" : random.choice(list(tag.posts.values_list("id", flat=True)))
+        } for tag in tags]
+
+        return JsonResponse({"tags" : results}, status = 200)
 
 class AuthorView(View):
     def get(self, request):
