@@ -51,7 +51,7 @@ class TagsView(View):
         tags    = Tag.objects.filter(usertag__isnull=True).distinct()
         results = [{
             "tag"      : tag.name,
-            "post_ids" : random.choice(list(tag.posts.values_list("id", flat=True)))
+            "post_id" : random.choice(list(tag.posts.values_list("id", flat=True)))
         } for tag in tags]
 
         return JsonResponse({"tags" : results}, status = 200)
@@ -100,3 +100,21 @@ class UsersView(View):
         
         except User.DoesNotExist:
             return JsonResponse({"MESSAGE" : "USER_DOES_NOT_EXIST"}, status=404)
+
+class AuthorView(View):
+    def get(self, request):
+        offset          = int(request.GET.get('offset',0))
+        limit           = int(request.GET.get('limit',6))
+        tag             = request.GET.get('tag')
+        recommand_tag   = Tag.objects.get(name=tag)
+        users           = recommand_tag.users.all()[offset:limit]
+        results = [{
+            'user_id'       : user.id,
+            'author_name'   : user.author_name,
+            'author_job'    : user.author_job,
+            'author_intro'  : user.author_intro,
+            'user_image'    : user.userimage_set.first().url,
+            'post_id'       : list(user.posts.values_list('id', flat='True')),
+            'post_tag'      : [post.tags.first().name for post in list(user.posts.all())]
+        }for user in users]
+        return JsonResponse({'data' : results}, status = 200)
