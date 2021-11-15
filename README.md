@@ -32,7 +32,7 @@
 
 ## 데모 영상
 
-추후 추가
+https://drive.google.com/file/d/1FQEAMmAexHfcDRznscNnlKUltWToQSFu/view?usp=sharing
 
 ***
 
